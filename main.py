@@ -1,5 +1,6 @@
 import time
 import sys
+import hashlib
 import telebot
 import cherrypy
 import pickledb
@@ -124,6 +125,26 @@ def plus_one_lesson(call):
         bot.edit_message_text('Прожми /pohod', call.message.chat.id, call.message.message_id)
     else:
         bot.edit_message_text('Посмотри последнее сообщение такого типа ', call.message.chat.id, call.message.message_id)
+
+
+@bot.message_handler(commands=['getlog'], func=lambda message: message.chat.id == config.MY_USERID)
+def get_log(message):  
+    with open('log.log', 'rb') as f:
+        log_hash = hashlib.sha256(str(f.read()).encode()).hexdigest()
+    prev_log_hash = pdb.get('log_file_hash')
+    if prev_log_hash == False:
+        # No hash in db
+        pdb.set('log_file_hash', log_hash)
+        with open('log.log', 'rb') as f:
+            bot.send_document(message.chat.id, f)
+    else:
+        if prev_log_hash == log_hash:
+            bot.send_message(message.chat.id, 'Лог идентичен предыдущему')
+        else:
+            pdb.set('log_file_hash', log_hash)
+            with open('log.log', 'rb') as f:
+                bot.send_document(message.chat.id, f)
+
 
 @bot.message_handler(commands=['delcode'], func=lambda message: message.chat.id == config.MY_USERID)
 def delete_code(message):
