@@ -1,0 +1,13 @@
+TOKEN = 'token'
+
+MY_USERID = 0
+MY_SECONDUSERID = 0
+
+PLUS_TIME = 25200
+
+PROXYLIST = ['https://35.235.75.244:3128', 'https://142.93.235.234:3128', 'https://91.225.190.77:53281']
+
+SERVER_NAME = 'example.com'
+SERVER_PORT = 88 # 88, 80, 443, 8443
+
+ONE_LESSON = 500

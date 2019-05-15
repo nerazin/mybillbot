@@ -1,0 +1,6 @@
+__pycache__/
+config.py
+venv/
+.vscode/
+main.pdb
+log.log
