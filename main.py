@@ -32,8 +32,12 @@ def is_user_accepted(userid):
     if userid != config.MY_USERID:
         # result = pdb.get()
         try:
-            pdb_req = pdb.dexists('accepted_users', userid)
+            pdb_req = pdb.get('accepted_users')
+            if userid in pdb_req:
+                return True
             return pdb_req
+        except TypeError:
+            return False
         except KeyError:
             return False
     else:
