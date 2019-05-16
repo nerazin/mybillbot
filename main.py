@@ -28,6 +28,7 @@ class WebhookServer(object):
 
 # Checkin if user is accepted
 def is_user_accepted(userid):
+    userid = str(userid)
     if userid != config.MY_USERID:
         # result = pdb.get()
         try:
