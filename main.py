@@ -29,10 +29,11 @@ class WebhookServer(object):
 # Checkin if user is accepted
 def is_user_accepted(userid):
     if userid != config.MY_USERID:
-        result = pdb.get('accepted_users')
-        if result != False and userid in result:
-            return True
-        else:
+        # result = pdb.get()
+        try:
+            pdb_req = pdb.dexists('accepted_users', userid)
+            return pdb_req
+        except KeyError:
             return False
     else:
         return True
@@ -176,9 +177,9 @@ def checking_code(message):
         pdb.rem('code')
         
         if pdb.get('accepted_users') == False:
-            pdb.set('accepted_users', {message.chat.id: message.from_user.first_name})
-        else:
-            pdb.append('accepted_users', {message.chat.id: message.from_user.first_name})
+            pdb.dcreate('accepted_users')
+
+        pdb.dadd('accepted_users', (message.chat.id, message.from_user.first_name))
 
         bot.send_message(config.MY_USERID, 'В круги присоеденился {}'.format(message.from_user.first_name))
 
@@ -195,6 +196,8 @@ def i_dont_know(message):
 
 if __name__ == '__main__':
     pdb = pickledb.load('main.pdb', True)
+    #print(is_user_accepted('841163953'))
+    #sys.exit()
     
     def main():
         try:
