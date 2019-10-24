@@ -4,3 +4,4 @@ venv/
 .vscode/
 main.pdb
 log.log
+.idea/
